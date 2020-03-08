@@ -140,7 +140,9 @@ class GamiBotImpl : GamiBot {
 
 
     private fun auth(referral:String?,context: Context, user: User){
-        user.user= referral!!
+        if (referral != null) {
+            user.user= referral
+        }
         val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
             .loginSDK(
                 GamiphyData.getInstance().botId,
