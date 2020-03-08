@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RestrictTo
 import androidx.core.content.edit
+import com.gamiphy.library.models.Referral
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.RetrofitClient
 import com.gamiphy.library.network.models.LoginResponse
@@ -141,7 +142,7 @@ class GamiBotImpl : GamiBot {
 
     private fun auth(referral:String?,context: Context, user: User){
         if (referral != null) {
-            user.user= referral
+            user.referral= Referral(referral)
         }
         val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
             .loginSDK(
