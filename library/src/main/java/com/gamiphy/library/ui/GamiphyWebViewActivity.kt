@@ -203,10 +203,11 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
                 }
 
                 action.type == SHARE -> {
-//                    val shareDataType = object : TypeToken<Action<ShareData>>() {}.type
-//                    val shareData = Gson().fromJson<Action<ShareData>>(event, shareDataType)
+                    val shareDataType = object : TypeToken<Action<ShareData>>() {}.type
+                    val shareData = Gson().fromJson<Action<ShareData>>(event, shareDataType)
 //                    share(shareData.data.text, shareData.data.link)
-                    gamiBot.notifyTaskTrigger("SHARE")
+                    gamiBot.notifyTaskTrigger("SHARE "+ (shareData.data.text?.substring(shareData.data.text.lastIndexOf(" ")+1)
+                        ?: " "))
                 }
             }
         }
