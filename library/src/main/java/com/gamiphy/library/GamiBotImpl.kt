@@ -119,77 +119,54 @@ class GamiBotImpl : GamiBot {
             . addOnSuccessListener { pendingDynamicLinkData ->
                 // Get deep link from result (may be null if no link is found)
                 var deepLink: Uri? = null
-                var bundle: Bundle? = null
                 var referral: String? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
                     var bundle = pendingDynamicLinkData.extensions
                     if (deepLink != null) {
-                        Log.d("Tha Link is  ", deepLink.toString())
+                        Log.d("Gamibot: deeplink is  ", deepLink.toString())
                         referral = deepLink.getQueryParameter("referralCode")
-//                        showData.setText(referral) // to show the data.
-                        if (referral != null) {
-                            user.user=referral
-                            val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
-                                .loginSDK(
-                                    GamiphyData.getInstance().botId,
-                                    user
-                                )
-                            call.enqueue(object : Callback<LoginResponse> {
-                                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                                    Log.e(GamiBotImpl::class.java.name, t.message, t)
-                                }
-
-                                override fun onResponse(
-                                    call: Call<LoginResponse>,
-                                    response: Response<LoginResponse>
-                                ) {
-                                    val token = response.body()?.token
-                                    context.getSharedPreferences(
-                                        TOKEN_PREF,
-                                        Context.MODE_PRIVATE
-                                    ).edit {
-                                        putString(TOKEN_PREF_ID, token)
-                                    }
-                                    gamiphyData.user= response.body()?.user!!
-                                    Log.d(GamiBotImpl::class.java.name, "success")
-                                }
-
-                            })
-
-//                            logIn(referral)
-                        }
-                    } else {
-//                        logIn("")
                     }
 
                 }
+                auth(referral,context,user)
 
-                deepLink = null
-                deepLink = null
-                bundle = null
-
-                // Handle the deep link. For example, open the linked
-                // content, or apply promotional credit to the user's
-                // account.
-                // ...
-
-                // ...
             }.addOnFailureListener{ e->
                 Log.w("Gamibot", "getDynamicLink:onFailure", e)
-//                logIn("")
+                auth(null,context,user)
             }
-
-
-
-
-
 
     }
 
 
-    private fun auth(referral:String){
+    private fun auth(referral:String?,context: Context, user: User){
+        user.user= referral!!
+        val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
+            .loginSDK(
+                GamiphyData.getInstance().botId,
+                user
+            )
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e(GamiBotImpl::class.java.name, t.message, t)
+            }
 
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
+                val token = response.body()?.token
+                context.getSharedPreferences(
+                    TOKEN_PREF,
+                    Context.MODE_PRIVATE
+                ).edit {
+                    putString(TOKEN_PREF_ID, token)
+                }
+                gamiphyData.user= response.body()?.user!!
+                Log.d(GamiBotImpl::class.java.name, "success")
+            }
+
+        })
     }
 
 
