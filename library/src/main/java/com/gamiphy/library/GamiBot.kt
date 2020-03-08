@@ -1,11 +1,10 @@
 package com.gamiphy.library
 
 import android.content.Context
+import android.content.Intent
 import androidx.annotation.RestrictTo
 import com.gamiphy.library.models.User
 import com.gamiphy.library.network.models.responses.redeem.Redeem
-import com.gamiphy.library.network.models.responses.redeem.Reward
-import org.intellij.lang.annotations.Language
 
 interface GamiBot {
     fun init(context: Context, botId: String, language: String? = "en"): GamiBot
@@ -37,7 +36,7 @@ interface GamiBot {
     fun notifyAuthTrigger(signUp: Boolean)
     fun notifyTaskTrigger(actionName: String)
     fun notifyRedeemTrigger(redeem: Redeem?)
-    fun loginSDK(context: Context, user: User)
+    fun loginSDK(context: Context, intent: Intent, user: User)
 
     companion object {
         private var instance: GamiBotImpl? = null

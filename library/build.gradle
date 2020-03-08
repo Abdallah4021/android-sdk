@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     mavenCentral()
@@ -23,7 +24,7 @@ android {
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName version
@@ -58,6 +59,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    compileOnly("com.google.firebase:firebase-dynamic-links:19.1.0") {
+//        exclude group: 'org.json', module: 'json'
+//    }
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     testImplementation 'junit:junit:4.12'
@@ -75,4 +79,14 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:4.8.0"
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+
+    implementation 'androidx.annotation:annotation:1.1.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
+
+
+//
+//    //firebase analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+//    // dynamic link.
+    implementation 'com.google.firebase:firebase-dynamic-links:19.1.0'
 }

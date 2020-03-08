@@ -5,11 +5,13 @@ import android.util.Log
 import com.gamiphy.library.GamiBot
 import com.gamiphy.library.OnRedeemTrigger
 import com.gamiphy.library.network.models.responses.redeem.Redeem
+import com.google.firebase.FirebaseApp
 
 class DemoApplication() : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         GamiBot.getInstance().init(applicationContext, "5dc9335e5d2ed200121fc720", "es").setDebug(true)
 
         GamiBot.getInstance().registerGamiphyOnRedeemTrigger(object : OnRedeemTrigger {

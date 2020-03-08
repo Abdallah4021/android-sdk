@@ -8,10 +8,8 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.gamiphy.library.GamiBot
 import com.gamiphy.library.OnAuthTrigger
-import com.gamiphy.library.OnRedeemTrigger
 import com.gamiphy.library.OnTaskTrigger
 import com.gamiphy.library.models.User
-import com.gamiphy.library.network.models.responses.redeem.Redeem
 import com.gamiphy.library.utils.HashUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -26,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         GamiBot.getInstance().loginSDK(
             this,
+            intent,
             User(
                 "riyadyhia@gmail.com", "Riyad Yahya",
                 HashUtil.createHmacKey(
