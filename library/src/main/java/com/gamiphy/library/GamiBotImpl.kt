@@ -165,7 +165,6 @@ class GamiBotImpl : GamiBot {
                 ).edit {
                     putString(TOKEN_PREF_ID, token)
                 }
-                gamiphyData.user= response.body()?.user!!
                 Log.d(GamiBotImpl::class.java.name, "success")
             }
 
