@@ -165,6 +165,8 @@ class GamiBotImpl : GamiBot {
                 ).edit {
                     putString(TOKEN_PREF_ID, token)
                 }
+                var userId:String= response.body()?.user?.user ?: ""
+                gamiphyData.user.referral= Referral(userId)
                 Log.d(GamiBotImpl::class.java.name, "success")
             }
 
