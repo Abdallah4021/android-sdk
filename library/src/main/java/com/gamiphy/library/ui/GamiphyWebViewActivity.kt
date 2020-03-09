@@ -208,7 +208,8 @@ class GamiphyWebViewActivity : AppCompatActivity(), GamiphyWebViewActions {
                     val shareData = Gson().fromJson<Action<ShareData>>(event, shareDataType)
 
 //                    share(shareData.data.text, shareData.data.link)
-                    gamiBot.notifyTaskTrigger("SHARE "+ (gamiphyData.user.referral?.user ?: ""))
+                    var userID=gamiphyData.user.user
+                    gamiBot.notifyTaskTrigger("SHARE "+ userID)
                 }
             }
         }

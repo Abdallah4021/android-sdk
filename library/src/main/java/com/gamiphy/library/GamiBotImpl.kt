@@ -119,31 +119,32 @@ class GamiBotImpl : GamiBot {
             .getDynamicLink(intent)
             . addOnSuccessListener { pendingDynamicLinkData ->
                 // Get deep link from result (may be null if no link is found)
-                var deepLink: Uri? = null
+                var deepLink: Uri?
                 var referral: String? = null
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
-                    var bundle = pendingDynamicLinkData.extensions
                     if (deepLink != null) {
                         Log.d("Gamibot: deeplink is  ", deepLink.toString())
                         referral = deepLink.getQueryParameter("referralCode")
+                        if (referral!=null){
+                            user.referral= Referral(referral)
+                            gamiphyData.user.referral= Referral(referral)
+
+                        }
                     }
 
                 }
-                auth(referral,context,user)
+                auth(context,user)
 
             }.addOnFailureListener{ e->
                 Log.w("Gamibot", "getDynamicLink:onFailure", e)
-                auth(null,context,user)
+                auth(context,user)
             }
 
     }
 
 
-    private fun auth(referral:String?,context: Context, user: User){
-        if (referral != null) {
-            user.referral= Referral(referral)
-        }
+    private fun auth(context: Context, user: User){
         val call: Call<LoginResponse> = RetrofitClient.gamiphyApiServices
             .loginSDK(
                 GamiphyData.getInstance().botId,
@@ -165,8 +166,11 @@ class GamiBotImpl : GamiBot {
                 ).edit {
                     putString(TOKEN_PREF_ID, token)
                 }
-                var userId:String= response.body()?.user?.user ?: ""
-                gamiphyData.user.referral= Referral(userId)
+
+                var userID=response.body()?.user?.user
+                if (userID != null) {
+                    gamiphyData.user.user= userID
+                }
                 Log.d(GamiBotImpl::class.java.name, "success")
             }
 
